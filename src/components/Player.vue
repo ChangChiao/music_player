@@ -127,7 +127,7 @@ export default {
     },
     initPlayer() {
       // this.player.pause();
-      let src = `${publicPath}mp3/${this.nowSong.src}`;
+      let src = `${this.publicPath}mp3/${this.nowSong.src}`;
       if (this.player == null) {
         this.player = new Howl({
           src: src,
