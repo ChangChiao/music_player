@@ -88,6 +88,10 @@ export default {
   watch: {
     nowSong: {
       handler() {
+        this.time = {
+          duration: 0,
+          seek: 0,
+        };
         this.player.pause();
         this.status = false;
         this.initPlayer();
@@ -108,7 +112,7 @@ export default {
         seek: 0,
       },
       canvasFlag: [false, false],
-      publicPath: process.env.BASE_URL
+      publicPath: process.env.BASE_URL,
     };
   },
   methods: {
