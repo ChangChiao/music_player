@@ -108,6 +108,7 @@ export default {
         seek: 0,
       },
       canvasFlag: [false, false],
+      publicPath: process.env.BASE_URL
     };
   },
   methods: {
@@ -126,7 +127,7 @@ export default {
     },
     initPlayer() {
       // this.player.pause();
-      let src = `/mp3/${this.nowSong.src}`;
+      let src = `${publicPath}mp3/${this.nowSong.src}`;
       if (this.player == null) {
         this.player = new Howl({
           src: src,
