@@ -1,11 +1,11 @@
 <template>
   <div :class="['player', { active: openFlag }]">
     <div class="preload">
-      <img src="../assets/cover/01.jpg" alt="">
-      <img src="../assets/cover/02.jpg" alt="">
-      <img src="../assets/cover/03.jpg" alt="">
-      <img src="../assets/cover/04.jpg" alt="">
-      <img src="../assets/cover/05.jpg" alt="">
+      <img src="../assets/cover/01.jpg" alt="" />
+      <img src="../assets/cover/02.jpg" alt="" />
+      <img src="../assets/cover/03.jpg" alt="" />
+      <img src="../assets/cover/04.jpg" alt="" />
+      <img src="../assets/cover/05.jpg" alt="" />
     </div>
     <canvas
       v-show="canvasFlag[0]"
@@ -20,7 +20,10 @@
       height="600"
     ></canvas>
     <div :class="['player__cd', { playing: status }]">
-      <img :src="require(`../assets/cover/${nowSong.pic}.jpg`)" alt="" />
+      <img
+        :src="require(`../assets/cover/${nowSong && nowSong.pic}.jpg`)"
+        alt=""
+      />
     </div>
     <div class="player__btn">
       <div class="player__btn--next" @click="next(1)">
@@ -35,8 +38,8 @@
     </div>
     <div class="player__control">
       <div class="player__control__info">
-        <h2>{{ nowSong.name }}</h2>
-        <p>{{ nowSong.author }}</p>
+        <h2>{{ nowSong && nowSong.name }}</h2>
+        <p>{{ nowSong && nowSong.author }}</p>
       </div>
       <div class="player__control__play">
         <img
@@ -86,14 +89,14 @@ export default {
   props: {
     openFlag: Boolean,
     nowSong: Object,
-    songList: Array
+    songList: Array,
   },
   computed: {
     iconStatus() {
       return `../assets/F2E_week3/${status ? "stop" : "play"}.svg`;
     },
-    audioFiles(){
-      return this.songList.map(vo=>vo.src)
+    audioFiles() {
+      return this.songList.map((vo) => vo.src);
     },
   },
   watch: {
@@ -124,7 +127,7 @@ export default {
       },
       canvasFlag: [false, false],
       publicPath: process.env.BASE_URL,
-      loaded:0
+      loaded: 0,
     };
   },
   methods: {
@@ -133,24 +136,26 @@ export default {
     },
 
     preloadAudio() {
-      this.audioFiles.forEach(vo=>{
+      this.audioFiles.forEach((vo) => {
         const audio = new Audio();
-        audio.addEventListener('canplaythrough', this.loadedAudio, false);
+        audio.addEventListener("canplaythrough", this.loadedAudio, false);
         audio.src = `${this.publicPath}mp3/${vo}`;
-      })
+      });
     },
     loadedAudio() {
       this.loaded++;
-      if (this.loaded == this.audioFiles.length-1) {
+      if (this.loaded == this.audioFiles.length - 1) {
         this.initPlayer();
-        this.$bus.$emit('close')
-      };
+        this.$bus.$emit("close");
+      }
     },
     playMusic() {
       this.status = !this.status;
       if (this.status) {
         this.player.play();
-        this.timerProgress();
+        setTimeout(() => {
+          this.timerProgress();
+        }, 100);
       } else {
         clearInterval(this.timer);
         this.player.pause();
@@ -184,6 +189,8 @@ export default {
     timerProgress() {
       clearInterval(this.timer);
       this.time.duration = this.player.duration();
+      console.log("8888", this.player.duration());
+      console.log("9999", this.time.duration);
       this.timer = setInterval(() => {
         this.time.seek = this.player.seek();
         this.progress = Math.round(this.player.seek());
@@ -256,8 +263,8 @@ export default {
       self.load(); // => update duration, sprite(var timeout)
       // self.play();
     };
-    this.$bus.$emit('open')
-    this.preloadAudio()
+    this.$bus.$emit("open");
+    this.preloadAudio();
     this.canvasSet();
   },
 };
@@ -509,30 +516,24 @@ input[type="range"]::-webkit-slider-runnable-track {
   margin: auto;
 }
 
-.preload{
+.preload {
   display: none;
 }
 
-@keyframes rotating {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes shake {
+@keyframes rotating{
   0% {
-    transform: translateY(0px);
+    transform: translateY(0px) rotate(0deg);
   }
 
-  50% {
-    transform: translateY(5px);
+  50%{
+    transform: translateY(10px) rotate(180deg);
   }
 
   100% {
-    transform: translateY(0px);
+    transform: translateY(0px) rotate(360deg);
   }
 }
+
+
+
 </style>
