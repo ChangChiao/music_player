@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Player :nowSong="nowSong" @switchSong="switchSong" :openFlag="openFlag" />
+    <Player :nowSong="nowSong" @switchSong="switchSong" :songList="songList" :openFlag="openFlag" />
     <List @openList="openList" @setSelect="setSelect" :selectIndex="selectIndex" :songList="songList" :openFlag="openFlag" />
   </div>
 </template>
