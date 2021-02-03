@@ -47,7 +47,7 @@
           src="../assets/F2E_week3/player.png"
           alt=""
         />
-        <button @click="playMusic">
+        <button @click="controlMusic">
           <img
             :src="
               require(`../assets/F2E_week3/${status ? 'stop' : 'play'}.svg`)
@@ -78,7 +78,7 @@
         :max="Math.round(time.duration)"
         step="1"
       />
-      <span class="time duration">{{ formateTime(time.duration) }}</span>
+      <span class="time duration">{{ nowSong && nowSong.time }}</span>
     </div>
   </div>
 </template>
@@ -107,7 +107,7 @@ export default {
           seek: 0,
         };
         this.player.pause();
-        this.status = false;
+        this.status = true;
         this.initPlayer();
       },
       deep: true,
@@ -150,12 +150,18 @@ export default {
       }
     },
     playMusic() {
+      console.log('playmusicWWW');
+      this.status = true;
+      this.playPeriod()
+    },
+    controlMusic(){
       this.status = !this.status;
+      this.playPeriod()
+    },
+    playPeriod(){
       if (this.status) {
         this.player.play();
-        setTimeout(() => {
-          this.timerProgress();
-        }, 100);
+        this.timerProgress();
       } else {
         clearInterval(this.timer);
         this.player.pause();
@@ -171,9 +177,15 @@ export default {
           autoplay: false,
           loop: false,
           volume: this.volume,
+          onend: ()=>{
+            this.next(1)
+          }
         });
       } else {
         this.player.changeSong(src);
+        setTimeout(() => {
+          this.playMusic()
+        }, 1000);
       }
     },
     canvasController() {
@@ -189,12 +201,12 @@ export default {
     timerProgress() {
       clearInterval(this.timer);
       this.time.duration = this.player.duration();
-      console.log("8888", this.player.duration());
-      console.log("9999", this.time.duration);
+      // console.log("8888", this.player.duration());
+      // console.log("9999", this.time.duration);
       this.timer = setInterval(() => {
         this.time.seek = this.player.seek();
         this.progress = Math.round(this.player.seek());
-        console.log("this.progress", this.progress);
+        // console.log("this.progress", this.progress);
         this.canvasController();
       }, 500);
     },
@@ -254,7 +266,7 @@ export default {
     },
   },
   mounted() {
-    Howl.prototype.changeSong = function (src) {
+    Howl.prototype.changeSong = function (src,callback) {
       var self = this;
       self.unload();
       self._duration = 0; // init duration

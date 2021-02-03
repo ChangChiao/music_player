@@ -74,7 +74,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  background: rgba(#fff, 0.9);
+  background: #fff;
   z-index: 100;
 }
 
