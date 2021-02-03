@@ -12,8 +12,44 @@
       </li>
     </ul>
     <div class="list__pic">
-      <img :src="require(`../assets/cover/${songList[selectIndex].pic}.jpg`)" alt="" />
+      <img
+        :src="require(`../assets/cover/${songList[selectIndex].pic}.jpg`)"
+        alt=""
+      />
     </div>
+    <span class="cc_text" @click="openCC">創用 CC</span>
+    <ul class="cc_content" v-if="showCC" @click="openCC">
+      <li>
+        Kevin MacLeod創作的「And Awaken - Stings」是依據 創用 CC (姓名標示) 4.0
+        授權使用。 https://creativecommons.org/licenses/by/4.0/ 來源：
+        http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100331
+        演出者： http://incompetech.com/
+      </li>
+      <li>
+        Kevin MacLeod創作的「Ecossaise in E-flat」是依據 創用 CC (姓名標示) 4.0
+        授權使用。 https://creativecommons.org/licenses/by/4.0/ 來源：
+        http://incompetech.com/music/royalty-free/?keywords=ecossaise&Search=Search
+        演出者： http://incompetech.com/
+      </li>
+      <li>
+        Kevin MacLeod創作的「Bassa Island Game Loop - Latinesque」是依據 創用 CC
+        (姓名標示) 4.0 授權使用。 https://creativecommons.org/licenses/by/4.0/
+        來源：
+        http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100840
+        演出者： http://incompetech.com/
+      </li>
+      <li>
+        Kevin MacLeod創作的「Guiton Sketch」是依據 創用 CC (姓名標示) 4.0
+        授權使用。 https://creativecommons.org/licenses/by/4.0/ 來源：
+        http://incompetech.com/music/royalty-free/index.html?isrc=USUAN1100473
+        演出者： http://incompetech.com/
+      </li>
+      <li>
+        Audionautix創作的「30 Second Classical」是依據 創用 CC (姓名標示) 4.0
+        授權使用。 https://creativecommons.org/licenses/by/4.0/ 演出者：
+        http://audionautix.com/
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -24,12 +60,20 @@ export default {
     openFlag: Boolean,
     selectIndex: Number,
   },
+  data() {
+    return {
+      showCC: false,
+    };
+  },
   methods: {
     setSelect(index) {
       this.$emit("setSelect", index);
     },
     openList() {
       this.$emit("openList");
+    },
+    openCC() {
+      this.showCC = !this.showCC;
     },
   },
 };
@@ -91,6 +135,35 @@ export default {
     img {
       width: 100%;
     }
+  }
+}
+
+.cc_text {
+  font-weight: 900;
+  text-align: right;
+  display: inline-block;
+  cursor: pointer;
+  padding-top: 20px;
+}
+
+.cc_content {
+  max-width: 500px;
+  text-align: left;
+  line-height: 20px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  color: #f5f5f5;
+  background: rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  cursor: pointer;
+  li{
+    padding: 20px 0;
+    border-bottom: 1px dashed #ccc;
   }
 }
 
