@@ -136,7 +136,7 @@ export default {
     },
     preloadAudioFirst(){
       let temp = [...this.audioFiles]
-      let beginArr = temp.splice(0,2)
+      let beginArr = temp.splice(0,1)
       beginArr.forEach((vo) => {
         const audio = new Audio();
         audio.addEventListener("canplaythrough", this.loadedAudio, false);
@@ -153,7 +153,7 @@ export default {
     },
     loadedAudio() {
       this.loaded++;
-      if (this.loaded === 2) {
+      if (this.loaded === 1) {
         this.initPlayer();
         this.$bus.$emit("close");
       }
