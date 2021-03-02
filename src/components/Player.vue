@@ -107,7 +107,7 @@ export default {
           seek: 0,
         };
         this.player.pause();
-        this.status = true;
+        this.status = false;
         this.initPlayer();
       },
       deep: true,
@@ -134,23 +134,31 @@ export default {
     next(num) {
       this.$emit("switchSong", num);
     },
-
-    preloadAudio() {
-      this.audioFiles.forEach((vo) => {
+    preloadAudioFirst(){
+      let temp = [...this.audioFiles]
+      let beginArr = temp.splice(0,2)
+      beginArr.forEach((vo) => {
         const audio = new Audio();
         audio.addEventListener("canplaythrough", this.loadedAudio, false);
+        audio.src = `${this.publicPath}mp3/${vo}`;
+      });
+      this.preloadAudio(temp)
+    },
+    preloadAudio(arr) {
+      arr.forEach((vo) => {
+        const audio = new Audio();
+        // audio.addEventListener("canplaythrough", this.loadedAudio, false);
         audio.src = `${this.publicPath}mp3/${vo}`;
       });
     },
     loadedAudio() {
       this.loaded++;
-      if (this.loaded == this.audioFiles.length - 1) {
+      if (this.loaded === 2) {
         this.initPlayer();
         this.$bus.$emit("close");
       }
     },
     playMusic() {
-      console.log('playmusicWWW');
       this.status = true;
       this.playPeriod()
     },
@@ -183,9 +191,9 @@ export default {
         });
       } else {
         this.player.changeSong(src);
-        setTimeout(() => {
-          this.playMusic()
-        }, 1000);
+        // setTimeout(() => {
+        //   this.playMusic()
+        // }, 1000);
       }
     },
     canvasController() {
@@ -201,8 +209,6 @@ export default {
     timerProgress() {
       clearInterval(this.timer);
       this.time.duration = this.player.duration();
-      // console.log("8888", this.player.duration());
-      // console.log("9999", this.time.duration);
       this.timer = setInterval(() => {
         this.time.seek = this.player.seek();
         this.progress = Math.round(this.player.seek());
@@ -223,7 +229,6 @@ export default {
       let s = Math.round(sec);
       let ss = s % 60;
       let mm = Math.floor(sec / 60);
-      // console.log('s',s)
       // console.log("ss", ss, "mm", mm);
       return this.addZero(`${mm}:${ss}`);
     },
@@ -276,7 +281,7 @@ export default {
       // self.play();
     };
     this.$bus.$emit("open");
-    this.preloadAudio();
+    this.preloadAudioFirst();
     this.canvasSet();
   },
 };
