@@ -3,6 +3,8 @@
 
 ### demo: https://changchiao.github.io/music_player/#/ 
 
+使用技術: vue、scss、howlerjs
+
 - 設計稿作者：Miss_Y
 - 音樂來源：jamendo
 - 圖片來源：unsplash
