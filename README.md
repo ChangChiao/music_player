@@ -1,5 +1,6 @@
-# player
-## 音樂播放器練習
+# player - 音樂撥放器
+![image](https://user-images.githubusercontent.com/24662856/157359906-c91feb0f-dd45-4677-bfaf-af1368d2553d.png)
+
 
 ### demo: https://changchiao.github.io/music_player/#/ 
 
