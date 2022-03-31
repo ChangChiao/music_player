@@ -2,7 +2,7 @@
 ![image](https://user-images.githubusercontent.com/24662856/157359906-c91feb0f-dd45-4677-bfaf-af1368d2553d.png)
 
 
-### demo: https://changchiao.github.io/music_player/#/ 
+### demo: [請點我](https://changchiao.github.io/music_player/#/ )
 
 使用技術: vue、scss、howlerjs
 
