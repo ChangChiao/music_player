@@ -3,4 +3,3 @@ module.exports = {
     ? '/music_player/'
     : '/'
 }
-
