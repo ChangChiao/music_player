@@ -56,7 +56,6 @@ export default {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  background-color: #ff8c6e;
 }
 #nav {
   padding: 30px;
@@ -89,6 +88,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #ff8c6e;
 }
 
 // Here is where the magic happens
