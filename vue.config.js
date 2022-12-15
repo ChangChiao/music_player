@@ -1,5 +1,4 @@
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'production'
-    ? '/music_player/'
-    : '/'
+  publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+  outputDir: 'docs'
 }

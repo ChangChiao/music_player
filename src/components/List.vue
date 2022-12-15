@@ -58,25 +58,25 @@ export default {
   props: {
     songList: Array,
     openFlag: Boolean,
-    selectIndex: Number,
+    selectIndex: Number
   },
-  data() {
+  data () {
     return {
-      showCC: false,
-    };
+      showCC: false
+    }
   },
   methods: {
-    setSelect(index) {
-      this.$emit("setSelect", index);
+    setSelect (index) {
+      this.$emit('setSelect', index)
     },
-    openList() {
-      this.$emit("openList");
+    openList () {
+      this.$emit('openList')
     },
-    openCC() {
-      this.showCC = !this.showCC;
-    },
-  },
-};
+    openCC () {
+      this.showCC = !this.showCC
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -184,4 +184,3 @@ export default {
   background-color: #555;
 }
 </style>
-

@@ -84,100 +84,100 @@
 </template>
 
 <script>
-import { Howl, Howler } from "howler";
+import { Howl, Howler } from 'howler'
 export default {
   props: {
     openFlag: Boolean,
     nowSong: Object,
-    songList: Array,
+    songList: Array
   },
   computed: {
-    iconStatus() {
-      return `../assets/F2E_week3/${status ? "stop" : "play"}.svg`;
+    iconStatus () {
+      return `../assets/F2E_week3/${status ? 'stop' : 'play'}.svg`
     },
-    audioFiles() {
-      return this.songList.map((vo) => vo.src);
-    },
+    audioFiles () {
+      return this.songList.map((vo) => vo.src)
+    }
   },
   watch: {
     nowSong: {
-      handler() {
+      handler () {
         this.time = {
           duration: 0,
-          seek: 0,
-        };
-        this.player.pause();
-        this.status = false;
-        this.initPlayer();
+          seek: 0
+        }
+        this.player.pause()
+        this.status = false
+        this.initPlayer()
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
-  data() {
+  data () {
     return {
-      groupList: ["Classical", "EDM", "Hip-hop / Rap", "Jazz/Blues", "Pop"],
+      groupList: ['Classical', 'EDM', 'Hip-hop / Rap', 'Jazz/Blues', 'Pop'],
       volume: 0.5,
-      status: false, //0=stop, 1=play
+      status: false, // 0=stop, 1=play
       player: null,
       progress: 0,
       timer: null,
       time: {
         duration: 0,
-        seek: 0,
+        seek: 0
       },
       canvasFlag: [false, false],
       publicPath: process.env.BASE_URL,
-      loaded: 0,
-    };
+      loaded: 0
+    }
   },
   methods: {
-    next(num) {
-      this.$emit("switchSong", num);
+    next (num) {
+      this.$emit('switchSong', num)
     },
-    preloadAudioFirst(){
+    preloadAudioFirst () {
       let temp = [...this.audioFiles]
-      let beginArr = temp.splice(0,1)
+      let beginArr = temp.splice(0, 1)
       beginArr.forEach((vo) => {
-        const audio = new Audio();
-        audio.addEventListener("canplaythrough", this.loadedAudio, false);
-        audio.src = `${this.publicPath}mp3/${vo}`;
-      });
+        const audio = new Audio()
+        audio.addEventListener('canplaythrough', this.loadedAudio, false)
+        audio.src = `${this.publicPath}mp3/${vo}`
+      })
       this.preloadAudio(temp)
     },
-    preloadAudio(arr) {
+    preloadAudio (arr) {
       arr.forEach((vo) => {
-        const audio = new Audio();
+        const audio = new Audio()
         // audio.addEventListener("canplaythrough", this.loadedAudio, false);
-        audio.src = `${this.publicPath}mp3/${vo}`;
-      });
+        audio.src = `${this.publicPath}mp3/${vo}`
+      })
     },
-    loadedAudio() {
-      this.loaded++;
+    loadedAudio () {
+      this.loaded++
       if (this.loaded === 1) {
-        this.initPlayer();
-        this.$bus.$emit("close");
+        this.initPlayer()
+        this.$bus.$emit('close')
       }
     },
-    playMusic() {
-      this.status = true;
+    playMusic () {
+      this.status = true
       this.playPeriod()
     },
-    controlMusic(){
-      this.status = !this.status;
+    controlMusic () {
+      this.status = !this.status
       this.playPeriod()
     },
-    playPeriod(){
+    playPeriod () {
       if (this.status) {
-        this.player.play();
-        this.timerProgress();
+        this.player.play()
+        this.timerProgress()
       } else {
-        clearInterval(this.timer);
-        this.player.pause();
+        clearInterval(this.timer)
+        this.player.pause()
       }
     },
-    initPlayer() {
+    initPlayer () {
       // this.player.pause();
-      let src = `${this.publicPath}mp3/${this.nowSong.src}`;
+      let src = `${this.publicPath}mp3/${this.nowSong.src}`
       if (this.player == null) {
         this.player = new Howl({
           src: src,
@@ -185,106 +185,106 @@ export default {
           autoplay: false,
           loop: false,
           volume: this.volume,
-          onend: ()=>{
+          onend: () => {
             this.next(1)
           }
-        });
+        })
       } else {
-        this.player.changeSong(src);
+        this.player.changeSong(src)
         // setTimeout(() => {
         //   this.playMusic()
         // }, 1000);
       }
     },
-    canvasController() {
-      this.canvasFlag = [false, false];
+    canvasController () {
+      this.canvasFlag = [false, false]
       if (this.progress % 2 === 0) {
-        this.canvasFlag[0] = true;
+        this.canvasFlag[0] = true
       }
 
       if (this.progress % 3 === 0) {
-        this.canvasFlag[1] = true;
+        this.canvasFlag[1] = true
       }
     },
-    timerProgress() {
-      clearInterval(this.timer);
-      this.time.duration = this.player.duration();
+    timerProgress () {
+      clearInterval(this.timer)
+      this.time.duration = this.player.duration()
       this.timer = setInterval(() => {
-        this.time.seek = this.player.seek();
-        this.progress = Math.round(this.player.seek());
+        this.time.seek = this.player.seek()
+        this.progress = Math.round(this.player.seek())
         // console.log("this.progress", this.progress);
-        this.canvasController();
-      }, 500);
+        this.canvasController()
+      }, 500)
     },
-    controlVol(event) {
-      let val = event.target.value;
-      this.volume = val;
-      Howler.volume(val);
+    controlVol (event) {
+      let val = event.target.value
+      this.volume = val
+      Howler.volume(val)
     },
-    setProgress(event) {
-      const value = event.target.value;
-      this.player.seek(value);
+    setProgress (event) {
+      const value = event.target.value
+      this.player.seek(value)
     },
-    formateTime(sec) {
-      let s = Math.round(sec);
-      let ss = s % 60;
-      let mm = Math.floor(sec / 60);
+    formateTime (sec) {
+      let s = Math.round(sec)
+      let ss = s % 60
+      let mm = Math.floor(sec / 60)
       // console.log("ss", ss, "mm", mm);
-      return this.addZero(`${mm}:${ss}`);
+      return this.addZero(`${mm}:${ss}`)
     },
-    addZero(str) {
-      let arr = str.split(":");
-      let str1 = arr[0].length === 2 ? arr[0] : `0${arr[0]}`;
-      let str2 = arr[1].length === 2 ? arr[1] : `0${arr[1]}`;
-      return `${str1}:${str2}`;
+    addZero (str) {
+      let arr = str.split(':')
+      let str1 = arr[0].length === 2 ? arr[0] : `0${arr[0]}`
+      let str2 = arr[1].length === 2 ? arr[1] : `0${arr[1]}`
+      return `${str1}:${str2}`
     },
-    canvasSet() {
-      const c = document.getElementById("myCanvas");
-      const ctx = c.getContext("2d");
-      ctx.lineWidth = 3;
-      ctx.strokeStyle = "#aaa";
-      ctx.beginPath();
-      ctx.moveTo(120, 50);
-      ctx.quadraticCurveTo(50, 100, 30, 150);
+    canvasSet () {
+      const c = document.getElementById('myCanvas')
+      const ctx = c.getContext('2d')
+      ctx.lineWidth = 3
+      ctx.strokeStyle = '#aaa'
+      ctx.beginPath()
+      ctx.moveTo(120, 50)
+      ctx.quadraticCurveTo(50, 100, 30, 150)
 
-      ctx.moveTo(480, 90);
-      ctx.quadraticCurveTo(540, 180, 550, 280);
+      ctx.moveTo(480, 90)
+      ctx.quadraticCurveTo(540, 180, 550, 280)
 
-      ctx.moveTo(470, 450);
-      ctx.quadraticCurveTo(420, 520, 320, 540);
-      ctx.stroke();
+      ctx.moveTo(470, 450)
+      ctx.quadraticCurveTo(420, 520, 320, 540)
+      ctx.stroke()
 
-      const c2 = document.getElementById("myCanvas2");
-      const ctx2 = c2.getContext("2d");
-      ctx2.lineWidth = 2;
-      ctx2.strokeStyle = "#888";
-      ctx2.beginPath();
-      ctx2.moveTo(500, 150);
-      ctx2.quadraticCurveTo(520, 180, 528, 220);
+      const c2 = document.getElementById('myCanvas2')
+      const ctx2 = c2.getContext('2d')
+      ctx2.lineWidth = 2
+      ctx2.strokeStyle = '#888'
+      ctx2.beginPath()
+      ctx2.moveTo(500, 150)
+      ctx2.quadraticCurveTo(520, 180, 528, 220)
 
-      ctx2.moveTo(0, 300);
-      ctx2.quadraticCurveTo(10, 350, 25, 380);
+      ctx2.moveTo(0, 300)
+      ctx2.quadraticCurveTo(10, 350, 25, 380)
 
-      ctx2.moveTo(80, 60);
-      ctx2.quadraticCurveTo(40, 100, 30, 120);
-      ctx2.stroke();
-    },
+      ctx2.moveTo(80, 60)
+      ctx2.quadraticCurveTo(40, 100, 30, 120)
+      ctx2.stroke()
+    }
   },
-  mounted() {
-    Howl.prototype.changeSong = function (src,callback) {
-      var self = this;
-      self.unload();
-      self._duration = 0; // init duration
-      self._sprite = {}; // init sprite
-      self._src = typeof src !== "string" ? src : [src];
-      self.load(); // => update duration, sprite(var timeout)
+  mounted () {
+    Howl.prototype.changeSong = function (src, callback) {
+      var self = this
+      self.unload()
+      self._duration = 0 // init duration
+      self._sprite = {} // init sprite
+      self._src = typeof src !== 'string' ? src : [src]
+      self.load() // => update duration, sprite(var timeout)
       // self.play();
-    };
-    this.$bus.$emit("open");
-    this.preloadAudioFirst();
-    this.canvasSet();
-  },
-};
+    }
+    this.$bus.$emit('open')
+    this.preloadAudioFirst()
+    this.canvasSet()
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -550,7 +550,5 @@ input[type="range"]::-webkit-slider-runnable-track {
     transform: translateY(0px) rotate(360deg);
   }
 }
-
-
 
 </style>

@@ -25,24 +25,24 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      flag: false,
-    };
+      flag: false
+    }
   },
-  created() {
-    this.$bus.$on("open", () => {
-      this.flag = true;
-    });
-    this.$bus.$on("close", () => {
-      this.flag = false;
-    });
+  created () {
+    this.$bus.$on('open', () => {
+      this.flag = true
+    })
+    this.$bus.$on('close', () => {
+      this.flag = false
+    })
   },
-  beforeDestroy() {
-    this.$bus.$off("open");
-    this.$bus.$off("close");
-  },
-};
+  beforeDestroy () {
+    this.$bus.$off('open')
+    this.$bus.$off('close')
+  }
+}
 </script>
 
 <style lang="scss">
